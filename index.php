@@ -25,10 +25,8 @@ $matcher = new UrlMatcher($collection, new RequestContext());
 
 try{
     $res = $matcher->match( $pathInfo );
-
     require_once "pages/".$res["_route"].".php";
-
-
+    
 }catch(ResourceNotFoundException $e){
     require 'pages/404.php';
     return;
