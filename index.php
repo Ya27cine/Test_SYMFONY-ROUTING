@@ -1,12 +1,15 @@
 <?php
 
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
 require __DIR__ . "/vendor/autoload.php";
+
+
 
 
 $pathInfo = $_SERVER['PATH_INFO'] ?? '/';
@@ -18,6 +21,7 @@ $collection->add('create', new Route("/create"));
 $collection->add('show', new Route("/show/{id}"));
 
 $matcher = new UrlMatcher($collection, new RequestContext());
+$generator = new UrlGenerator($collection, new RequestContext());
 
 try{
     $currentRoute = $matcher->match( $pathInfo );
@@ -30,8 +34,6 @@ try{
 
 // var_dump($res);
 // die();
-
-
 
 
 /**
