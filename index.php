@@ -11,21 +11,17 @@ require __DIR__ . "/vendor/autoload.php";
 
 $pathInfo = $_SERVER['PATH_INFO'] ?? '/';
 
-$listRoute   = new Route("/");
-$createRoute = new Route("/create");
-$showRoute   = new Route("/show");
-
 $collection = new RouteCollection();
-$collection->add('list', $listRoute);
-$collection->add('create', $createRoute);
-$collection->add('show', $showRoute);
 
+$collection->add('list', new Route("/") );
+$collection->add('create', new Route("/create"));
+$collection->add('show', new Route("/show/{id}"));
 
 $matcher = new UrlMatcher($collection, new RequestContext());
 
 try{
-    $res = $matcher->match( $pathInfo );
-    require_once "pages/".$res["_route"].".php";
+    $currentRoute = $matcher->match( $pathInfo );
+    require_once "pages/".$currentRoute["_route"].".php";
     
 }catch(ResourceNotFoundException $e){
     require 'pages/404.php';
