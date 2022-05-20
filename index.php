@@ -1,6 +1,9 @@
 <?php
 
+use App\Controllers\TaskController;
+use App\Controllers\HelloController;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Route;
@@ -9,29 +12,31 @@ use Symfony\Component\Routing\RouteCollection;
 require __DIR__ . "/vendor/autoload.php";
 
 
+
 $pathInfo = $_SERVER['PATH_INFO'] ?? '/';
 
 $collection = new RouteCollection();
 
-$collection->add('list', new Route("/") );
-$collection->add('create', new Route("/create"));
-$collection->add('show', new Route("/show/{id}"));
+$collection->add('list', new Route("/",['controller'=> [new TaskController, 'index']],[],[],'localhost', ['http'], ['get']) );
+$collection->add('create', new Route("/create",['controller'=> [new TaskController, 'insert']],[],[],'localhost', ['http'], ['get', 'post']) );
+$collection->add('show', new Route("/show/{id?}",['controller'=> [new TaskController, 'show']],['id'=>'\d+']));
+$collection->add('hello', 
+        new Route("/hello/{name}",
+                ['name'=>'world', 'controller'=> [new HelloController, 'sayHello'] ]));
 
-$matcher = new UrlMatcher($collection, new RequestContext());
+$matcher = new UrlMatcher($collection, new RequestContext('', $_SERVER['REQUEST_METHOD']));
+$generator = new UrlGenerator($collection, new RequestContext());
 
 try{
     $currentRoute = $matcher->match( $pathInfo );
-    require_once "pages/".$currentRoute["_route"].".php";
-    
+
+    // call controller : 
+    $currentRoute['controller'] ( $currentRoute, $generator );
+
 }catch(ResourceNotFoundException $e){
     require 'pages/404.php';
     return;
 }
-
-// var_dump($res);
-// die();
-
-
 
 
 /**
