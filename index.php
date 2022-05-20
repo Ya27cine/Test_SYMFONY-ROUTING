@@ -14,7 +14,7 @@ $pathInfo = $_SERVER['PATH_INFO'] ?? '/';
 
 $collection = new RouteCollection();
 
-$collection->add('list', new Route("/") );
+$collection->add('list', new Route("/",[],[],[],'localhost', ['http'], ['get']) );
 $collection->add('create', new Route("/create"));
 $collection->add('show', new Route("/show/{id?}",[],['id'=>'\d+']));
 $collection->add('hello', new Route("/hello/{name}",['name'=>'world']));
