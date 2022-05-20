@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\HelloController;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
@@ -8,6 +9,9 @@ use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
 require __DIR__ . "/vendor/autoload.php";
+
+(new HelloController())->sayHello();
+die();
 
 
 $pathInfo = $_SERVER['PATH_INFO'] ?? '/';
@@ -19,13 +23,12 @@ $collection->add('create', new Route("/create",[],[],[],'localhost', ['http'], [
 $collection->add('show', new Route("/show/{id?}",[],['id'=>'\d+']));
 $collection->add('hello', new Route("/hello/{name}",['name'=>'world']));
 
-
 $matcher = new UrlMatcher($collection, new RequestContext('', $_SERVER['REQUEST_METHOD']));
 $generator = new UrlGenerator($collection, new RequestContext());
 
 try{
     $currentRoute = $matcher->match( $pathInfo );
-   // dump($currentRoute);
+    //dd($currentRoute); // show/10 ['id'=>2, '_route'=>'show' ]
 
     require_once "pages/".$currentRoute["_route"].".php";
     
