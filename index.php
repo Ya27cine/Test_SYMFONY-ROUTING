@@ -10,15 +10,13 @@ use Symfony\Component\Routing\RouteCollection;
 require __DIR__ . "/vendor/autoload.php";
 
 
-
-
 $pathInfo = $_SERVER['PATH_INFO'] ?? '/';
 
 $collection = new RouteCollection();
 
 $collection->add('list', new Route("/") );
 $collection->add('create', new Route("/create"));
-$collection->add('show', new Route("/show/{id}"));
+$collection->add('show', new Route("/show/{id?}",[],['id'=>'\d+']));
 $collection->add('hello', new Route("/hello/{name}",['name'=>'world']));
 
 $matcher = new UrlMatcher($collection, new RequestContext());
@@ -26,7 +24,7 @@ $generator = new UrlGenerator($collection, new RequestContext());
 
 try{
     $currentRoute = $matcher->match( $pathInfo );
-    dump($currentRoute);
+   // dump($currentRoute);
 
     require_once "pages/".$currentRoute["_route"].".php";
     
@@ -34,9 +32,6 @@ try{
     require 'pages/404.php';
     return;
 }
-
-// var_dump($res);
-// die();
 
 
 /**
