@@ -1,7 +1,3 @@
-<?php 
- $name = $currentRoute["name"];
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>

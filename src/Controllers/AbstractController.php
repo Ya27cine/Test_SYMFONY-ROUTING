@@ -5,8 +5,9 @@
  abstract class AbstractController{
     private  $path =  '././pages/';
 
-    protected function render($page, array $currentRoute = null, $generator=null){
-        require_once $this->path . $page.".php";
+    protected function render($data){
+        extract($data);
+        require_once $this->path . $route.".html.php";
     }
      
  }
