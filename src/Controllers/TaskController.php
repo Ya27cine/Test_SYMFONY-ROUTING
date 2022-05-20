@@ -2,16 +2,16 @@
 
 namespace App\Controllers;
 
-class TaskController{
+class TaskController extends AbstractController{
 
-    public function index(){
-        require_once '././pages/index.php';
+    public function index(array $currentRoute, $generator){ 
+        $this->render('list',$currentRoute, $generator);
     }
-    public function show(array $currentRoute){
-        require_once '././pages/show.php';
+    public function show(array $currentRoute, $generator){
+        $this->render('show', $currentRoute);
     }
-    public function insert(array $currentRoute){
-        require_once '././pages/create.php';
+    public function insert(array $currentRoute, $generator){
+        $this->render('create', $currentRoute);
     }
 }
 ?>

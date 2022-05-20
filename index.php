@@ -31,7 +31,7 @@ try{
     $currentRoute = $matcher->match( $pathInfo );
 
     // call controller : 
-    $currentRoute['controller'] ( $currentRoute );
+    $currentRoute['controller'] ( $currentRoute, $generator );
 
 }catch(ResourceNotFoundException $e){
     require 'pages/404.php';
