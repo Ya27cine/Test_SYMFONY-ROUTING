@@ -1,8 +1,3 @@
-<!-- 
-    PAGE D'ERREUR :
-    ------------
-    Elle ne sert qu'à afficher le fait qu'une page n'ait pas été trouvée
- -->
 <!DOCTYPE html>
 <html lang="en">
 
