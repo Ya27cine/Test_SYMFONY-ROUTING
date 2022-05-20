@@ -15,11 +15,12 @@ $pathInfo = $_SERVER['PATH_INFO'] ?? '/';
 $collection = new RouteCollection();
 
 $collection->add('list', new Route("/",[],[],[],'localhost', ['http'], ['get']) );
-$collection->add('create', new Route("/create"));
+$collection->add('create', new Route("/create",[],[],[],'localhost', ['http'], ['get', 'post']) );
 $collection->add('show', new Route("/show/{id?}",[],['id'=>'\d+']));
 $collection->add('hello', new Route("/hello/{name}",['name'=>'world']));
 
-$matcher = new UrlMatcher($collection, new RequestContext());
+
+$matcher = new UrlMatcher($collection, new RequestContext('', $_SERVER['REQUEST_METHOD']));
 $generator = new UrlGenerator($collection, new RequestContext());
 
 try{
