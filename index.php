@@ -19,12 +19,15 @@ $collection = new RouteCollection();
 $collection->add('list', new Route("/") );
 $collection->add('create', new Route("/create"));
 $collection->add('show', new Route("/show/{id}"));
+$collection->add('hello', new Route("/hello/{name}",['name'=>'world']));
 
 $matcher = new UrlMatcher($collection, new RequestContext());
 $generator = new UrlGenerator($collection, new RequestContext());
 
 try{
     $currentRoute = $matcher->match( $pathInfo );
+    dump($currentRoute);
+
     require_once "pages/".$currentRoute["_route"].".php";
     
 }catch(ResourceNotFoundException $e){
